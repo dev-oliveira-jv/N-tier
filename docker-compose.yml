@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  # Nome do serviço. É este nome ('db') que você usa na DATABASE_URL.
+  db:
+    image: postgres:15-alpine # Uma versão leve e estável do PostgreSQL
+    container_name: estoque-postgres-db
+    restart: always
+    ports:
+      # Mapeia a porta do host (5432) para a porta interna do container (5432)
+      # Isso permite que ferramentas externas, como o VS Code ou o DBeaver, se conectem.
+      - "5433:5432"
+    environment:
+      # O Docker-Compose injeta as variáveis do .env aqui.
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: abc
+      POSTGRES_DB: estoque_db
+    volumes:
+      # Persiste os dados em um volume nomeado para que você não perca os dados ao parar o contêiner.
+      - postgres_data:/var/lib/postgresql/data
+
+# Definição dos Volumes
+volumes:
+  postgres_data:
